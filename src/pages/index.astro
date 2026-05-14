@@ -1,11 +1,417 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+const projects = [
+  {
+    title: 'YouTube Shorts Recommender',
+    desc: 'End-to-end short-video recommendation system trained on KuaiRec 2.0. Combines BM25 retrieval with a cross-encoder re-ranking model. Achieves NDCG@10 of 0.82 on the test set.',
+    tags: ['Python', 'PyTorch', 'BM25', 'Transformers', 'FastAPI'],
+    link: 'https://github.com/wentao2024',
+    highlight: true,
+  },
+  {
+    title: 'Distributed Task Queue',
+    desc: 'Lightweight async task queue built on Redis Streams. Supports retry policies, dead-letter queues, and a real-time monitoring dashboard.',
+    tags: ['Go', 'Redis', 'Docker', 'gRPC'],
+    link: 'https://github.com/wentao2024',
+    highlight: false,
+  },
+  {
+    title: 'REST API Gateway',
+    desc: 'High-throughput API gateway with rate limiting, JWT auth, and request routing. Handles 10k+ req/s on a single instance.',
+    tags: ['Go', 'PostgreSQL', 'JWT', 'Nginx'],
+    link: 'https://github.com/wentao2024',
+    highlight: false,
+  },
+];
+
+const posts = [
+  { title: 'BM25 vs. Dense Retrieval: When Does Sparse Win?', date: 'Apr 2025', slug: '#' },
+  { title: 'Building a Task Queue from Scratch with Redis Streams', date: 'Mar 2025', slug: '#' },
+  { title: 'Go Concurrency Patterns I Actually Use in Production', date: 'Feb 2025', slug: '#' },
+];
+
+const skills = {
+  'Languages': ['Go', 'Python', 'Java', 'SQL', 'TypeScript'],
+  'Backend': ['gRPC', 'REST', 'GraphQL', 'FastAPI', 'Spring Boot'],
+  'Infrastructure': ['Docker', 'Kubernetes', 'PostgreSQL', 'Redis', 'Kafka'],
+  'ML / AI': ['PyTorch', 'Transformers', 'scikit-learn', 'NumPy', 'Pandas'],
+};
 ---
 
 <Layout>
-	<Welcome />
+  <!-- NAV -->
+  <nav>
+    <span class="nav-logo">wentao.dev</span>
+    <ul>
+      <li><a href="#about">About</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#writing">Writing</a></li>
+      <li><a href="#contact" class="nav-cta">Contact</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <!-- HERO -->
+    <section id="hero">
+      <div class="hero-badge">
+        <span class="dot"></span>
+        Available for internships · Summer 2026
+      </div>
+      <h1>
+        Hi, I'm <span class="accent">Wentao</span>.<br />
+        I build backend systems<br />
+        <span class="dim">that actually scale.</span>
+      </h1>
+      <p class="hero-sub">
+        CS student at UMass Amherst. I care about distributed systems,
+        clean APIs, and the occasional ML rabbit hole.
+      </p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn-primary">View Projects</a>
+        <a href="#contact" class="btn-ghost">Get in touch →</a>
+      </div>
+      <div class="hero-meta">
+        <span>📍 Amherst, MA</span>
+        <span>·</span>
+        <span>UMass Amherst · CS · 2026</span>
+      </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section id="about">
+      <div class="section-label">About</div>
+      <div class="about-grid">
+        <div class="about-text">
+          <p>
+            I'm a computer science student focused on backend engineering and distributed systems.
+            Most of my time goes into building things that handle real load — whether that's a
+            recommendation engine processing millions of interactions or a task queue that
+            doesn't lose jobs under pressure.
+          </p>
+          <p>
+            Outside of coursework, I write about what I learn: system design trade-offs,
+            Go patterns, ML pipelines. Writing forces me to understand things properly.
+          </p>
+          <p>
+            Previously interned at [Company], where I worked on [brief description].
+            Currently looking for Summer 2026 backend / SWE internship opportunities.
+          </p>
+        </div>
+        <div class="about-skills">
+          {Object.entries(skills).map(([category, items]) => (
+            <div class="skill-group">
+              <div class="skill-category">{category}</div>
+              <div class="skill-tags">
+                {items.map(s => <span class="tag">{s}</span>)}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- PROJECTS -->
+    <section id="projects">
+      <div class="section-label">Projects</div>
+      <h2 class="section-title">Things I've built</h2>
+      <div class="projects-grid">
+        {projects.map(p => (
+          <a href={p.link} target="_blank" class:list={['project-card', { featured: p.highlight }]}>
+            <div class="project-top">
+              <span class="project-icon">{p.highlight ? '★' : '◇'}</span>
+              <span class="project-arrow">↗</span>
+            </div>
+            <h3>{p.title}</h3>
+            <p>{p.desc}</p>
+            <div class="project-tags">
+              {p.tags.map(t => <span class="tag mono">{t}</span>)}
+            </div>
+          </a>
+        ))}
+      </div>
+      <div class="projects-footer">
+        <a href="https://github.com/wentao2024" target="_blank" class="btn-ghost">
+          More on GitHub →
+        </a>
+      </div>
+    </section>
+
+    <!-- WRITING -->
+    <section id="writing">
+      <div class="section-label">Writing</div>
+      <h2 class="section-title">CS & Backend articles</h2>
+      <div class="posts-list">
+        {posts.map(post => (
+          <a href={post.slug} class="post-row">
+            <span class="post-title">{post.title}</span>
+            <span class="post-date">{post.date}</span>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact">
+      <div class="contact-inner">
+        <div class="section-label">Contact</div>
+        <h2 class="section-title">Let's talk</h2>
+        <p class="contact-sub">
+          Whether it's an internship, a project idea, or you just want to talk systems —
+          my inbox is open.
+        </p>
+        <a href="mailto:wentaoma@umass.edu" class="btn-primary contact-btn">
+          wentaoma@umass.edu
+        </a>
+        <div class="social-links">
+          <a href="https://github.com/wentao2024" target="_blank">GitHub</a>
+          <a href="https://linkedin.com/in/wentaoma" target="_blank">LinkedIn</a>
+          <a href="/resume.pdf" target="_blank">Résumé</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>© 2025 Wentao Ma</span>
+    <span>Built with Astro · Deployed on Cloudflare</span>
+  </footer>
 </Layout>
+
+<style>
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 clamp(1.5rem, 5vw, 4rem);
+    height: 60px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(8,8,8,0.85);
+    backdrop-filter: blur(12px);
+  }
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent);
+    letter-spacing: 0.02em;
+  }
+  nav ul {
+    display: flex;
+    gap: 2rem;
+    list-style: none;
+    font-size: 13px;
+    color: var(--muted);
+  }
+  nav ul a:hover { color: var(--text); }
+  .nav-cta {
+    color: var(--accent) !important;
+    border: 1px solid var(--accent);
+    padding: 5px 14px;
+    border-radius: 6px;
+    transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--accent-dim) !important; }
+
+  main { max-width: 860px; margin: 0 auto; padding: 0 clamp(1.5rem, 5vw, 2rem); }
+
+  section {
+    padding: 100px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  section:last-child { border-bottom: none; }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    margin-bottom: 1.2rem;
+  }
+  .section-title {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    font-weight: 500;
+    margin-bottom: 2.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  #hero { padding-top: 160px; padding-bottom: 100px; }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--muted);
+    border: 1px solid var(--border);
+    padding: 6px 14px;
+    border-radius: 100px;
+    margin-bottom: 2.5rem;
+  }
+  .dot {
+    width: 6px; height: 6px;
+    background: #22c55e;
+    border-radius: 50%;
+    box-shadow: 0 0 6px #22c55e;
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+  #hero h1 {
+    font-size: clamp(2.2rem, 5vw, 3.6rem);
+    font-weight: 500;
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    margin-bottom: 1.5rem;
+  }
+  .accent { color: var(--accent); }
+  .dim { color: var(--muted); }
+  .hero-sub {
+    font-size: 1rem;
+    color: var(--muted);
+    max-width: 480px;
+    margin-bottom: 2.5rem;
+    line-height: 1.8;
+  }
+  .hero-actions { display: flex; gap: 1rem; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--accent);
+    color: #fff;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: opacity 0.2s;
+  }
+  .btn-primary:hover { opacity: 0.85; }
+  .btn-ghost {
+    color: var(--muted);
+    font-size: 14px;
+    transition: color 0.2s;
+  }
+  .btn-ghost:hover { color: var(--text); }
+  .hero-meta {
+    display: flex;
+    gap: 0.6rem;
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+  }
+  .about-text { display: flex; flex-direction: column; gap: 1rem; color: var(--muted); line-height: 1.9; }
+  .about-text p:first-child { color: var(--text); }
+  .skill-group { margin-bottom: 1.5rem; }
+  .skill-category {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.6rem;
+  }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag {
+    font-size: 12px;
+    padding: 3px 10px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--muted);
+    background: var(--card);
+  }
+  .tag.mono { font-family: var(--mono); font-size: 11px; }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .project-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    padding: 1.8rem;
+    background: var(--card);
+    border-right: 1px solid var(--border);
+    transition: background 0.2s;
+    cursor: pointer;
+  }
+  .project-card:last-child { border-right: none; }
+  .project-card:hover { background: #1a1a1a; }
+  .project-card.featured { border-top: 2px solid var(--accent); }
+  .project-top {
+    display: flex;
+    justify-content: space-between;
+    color: var(--muted);
+    font-size: 14px;
+  }
+  .project-card.featured .project-top span:first-child { color: var(--accent); }
+  .project-card h3 {
+    font-size: 15px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .project-card p { font-size: 13px; color: var(--muted); line-height: 1.7; flex: 1; }
+  .project-tags { display: flex; flex-wrap: wrap; gap: 5px; }
+  .projects-footer { margin-top: 2rem; text-align: center; }
+
+  .posts-list { display: flex; flex-direction: column; }
+  .post-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.1rem 0;
+    border-bottom: 1px solid var(--border);
+    transition: color 0.15s;
+    gap: 1rem;
+  }
+  .post-row:hover .post-title { color: var(--accent); }
+  .post-title { font-size: 14px; font-weight: 400; }
+  .post-date {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  #contact { border-bottom: none; }
+  .contact-inner {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: clamp(2rem, 5vw, 4rem);
+  }
+  .contact-sub { color: var(--muted); max-width: 400px; margin-bottom: 2rem; }
+  .contact-btn { display: inline-block; font-family: var(--mono); font-size: 13px; margin-bottom: 2rem; }
+  .social-links { display: flex; gap: 1.5rem; font-size: 13px; color: var(--muted); }
+  .social-links a:hover { color: var(--text); }
+
+  footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 2rem clamp(1.5rem, 5vw, 4rem);
+    font-size: 12px;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    font-family: var(--mono);
+  }
+
+  @media (max-width: 640px) {
+    nav ul { gap: 1rem; }
+    nav ul li:not(:last-child) { display: none; }
+    .about-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .project-card { border-right: none; border-bottom: 1px solid var(--border); }
+    footer { flex-direction: column; gap: 0.5rem; }
+  }
+</style>
